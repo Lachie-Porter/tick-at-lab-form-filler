@@ -69,7 +69,7 @@
 
   function fillNext(form) {
     if (!form || !form.length) {
-      console.error('[bm] fillNext: form not found (id containing "AdditionalProcedureTrainingDetailsTable")');
+      console.error('[bm] fillNext: form not found (id containing "DXPEForm_PW")');
       return;
     }
     console.log('[bm] fillNext: using form', form.attr('id'));
@@ -98,7 +98,7 @@
   $(document).off('click.bm').on('click.bm', 'a', function () {
     if ($(this).text().trim() === 'Apply & New') {
       console.log('[bm] "Apply & New" clicked — filling next entry');
-      var form = $('[id*="AdditionalProcedureTrainingDetailsTable"]').first();
+      var form = $('[id*="DXPEForm_PW"]').first();
       if (!form.length) {
         console.error('[bm] click handler: form not found after "Apply & New" click');
       }
@@ -106,7 +106,7 @@
     }
   });
 
-  fillNext($('[id*="AdditionalProcedureTrainingDetailsTable"]').first());
+  fillNext($('[id*="DXPEForm_PW"]').first());
   }
 
   if (window.jQuery) {
