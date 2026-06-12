@@ -39,14 +39,12 @@
       return $();
     }
 
-    // Strategy 1: label wraps the input
     var field = label.find('input, select, textarea').first();
     if (field.length) {
       console.log('[bm] byLabel: "' + text + '" found via label wrapper');
       return field;
     }
 
-    // Strategy 2: label[for] -> input#id
     var forAttr = label.attr('for');
     if (forAttr) {
       field = form.find('#' + forAttr);
@@ -56,7 +54,6 @@
       }
     }
 
-    // Strategy 3: next input/select/textarea in the DOM after the label
     field = label.nextAll('input, select, textarea').first();
     if (!field.length) {
       field = label.parent().nextAll().find('input, select, textarea').first();
