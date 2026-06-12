@@ -1,0 +1,40 @@
+(function () {
+  var existing = document.getElementById('bm-loader');
+  if (existing) { existing.remove(); return; }
+
+  var div = document.createElement('div');
+  div.id = 'bm-loader';
+  div.style.cssText = 'position:fixed;top:20px;right:20px;z-index:99999;background:white;border:1px solid #ccc;border-radius:6px;padding:16px;font-family:sans-serif;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,0.15);min-width:260px';
+  div.innerHTML = '<strong>Load CSV Data</strong><br><br>'
+    + '<input type="file" id="bm-file" accept=".csv"><br><br>'
+    + '<div id="bm-msg" style="color:#555;font-size:13px"></div>'
+    + '<br><button id="bm-close" style="font-size:12px;cursor:pointer">Close</button>';
+  document.body.appendChild(div);
+
+  document.getElementById('bm-close').onclick = function () { div.remove(); };
+
+  document.getElementById('bm-file').onchange = function (e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var lines = e.target.result.trim().split('\n');
+      var headers = lines[0].split(',').map(function (s) { return s.trim(); }).slice(1);
+      var data = {};
+      headers.forEach(function (proc) { data[proc] = []; });
+      lines.slice(1).forEach(function (line) {
+        var cols = line.split(',').map(function (s) { return s.trim(); });
+        var name = cols[0];
+        headers.forEach(function (proc, i) {
+          if (cols[i + 1]) {
+            data[proc].push({ name: name, competency: cols[i + 1] });
+          }
+        });
+      });
+      localStorage.setItem('bm_csv_data', JSON.stringify(data));
+      document.getElementById('bm-msg').textContent =
+        'Saved: ' + headers.join(', ') + ' — ' + (lines.length - 1) + ' people.';
+    };
+    reader.readAsText(file);
+  };
+})();

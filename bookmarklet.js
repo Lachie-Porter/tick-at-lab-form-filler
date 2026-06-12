@@ -1,42 +1,26 @@
 (function () {
   function run($) {
-  var DATA = {
-    'Exp 1': [
-      { name: 'John Doe',   competency: 'Expert' },
-      { name: 'Alice Blah', competency: 'Competent' },
-      { name: 'Georgia M',  competency: 'Good' },
-      { name: 'Foo Bar',    competency: 'Expert' },
-    ],
-    'Exp 2': [
-      { name: 'John Doe',   competency: 'Ok' },
-      { name: 'Alice Blah', competency: 'Expert' },
-      { name: 'Georgia M',  competency: 'Expert' },
-      { name: 'Foo Bar',    competency: 'Woeful' },
-    ],
-    'Exp 3': [
-      { name: 'John Doe',   competency: 'Expert' },
-      { name: 'Alice Blah', competency: 'Expert' },
-      { name: 'Georgia M',  competency: 'Bad' },
-      { name: 'Foo Bar',    competency: 'Expert' },
-    ],
-    'Exp 4': [
-      { name: 'John Doe',   competency: 'Competent' },
-      // Alice Blah blank — skipped
-      { name: 'Georgia M',  competency: 'Expert' },
-      { name: 'Foo Bar',    competency: 'Expert' },
-    ],
-  };
+  var DATA = JSON.parse(localStorage.getItem('bm_csv_data') || 'null');
+  if (!DATA) { alert('No CSV loaded. Use the Load CSV bookmarklet first.'); return; }
 
   var KEY = 'bm_progress';
   localStorage.removeItem(KEY);
   var state = null;
 
   if (!state) {
-    var pick = prompt('Which procedure?\n1 = Exp 1\n2 = Exp 2\n3 = Exp 3\n4 = Exp 4');
+    var procs = Object.keys(DATA);
+    var menu = procs.map(function (p, i) { return (i + 1) + ' = ' + p; }).join('\n');
+    var pick = prompt('Which procedure?\n' + menu);
     if (!pick) return;
-    var expName = { '1': 'Exp 1', '2': 'Exp 2', '3': 'Exp 3', '4': 'Exp 4' }[pick.trim()];
+    var expName = procs[parseInt(pick.trim(), 10) - 1];
     if (!expName) { alert('Unknown selection'); return; }
     state = { exp: expName, index: 0 };
+  }
+
+  function byLabel(text) {
+    return $('label').filter(function () {
+      return $(this).clone().children().remove().end().text().trim() === text;
+    }).find('input, select, textarea');
   }
 
   function fillNext() {
@@ -47,10 +31,10 @@
       return;
     }
     var person = list[state.index];
-    $('[name="name"]').val(person.name);
-    $('[name="procedure"]').val(state.exp);
-    $('[name="species"]').val('Mouse');
-    $('[name="competency"]').val(person.competency);
+    byLabel('Investigator name').val(person.name);
+    byLabel('Procedure name').val(state.exp);
+    byLabel('Species').val('Mouse');
+    byLabel('Competency').val(person.competency);
     state.index++;
     localStorage.setItem(KEY, JSON.stringify(state));
     document.title = '(' + state.index + '/' + list.length + ') ' + state.exp;
