@@ -7,3 +7,4 @@ minify() {
 
 minify src/load-csv.js minified/load-csv.js
 minify src/fill-form.js minified/fill-form.js
+minify src/reset.js minified/reset.js
