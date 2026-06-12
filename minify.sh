@@ -4,14 +4,12 @@ minify() {
 var fs = require('fs');
 var code = fs.readFileSync('$1','utf8');
 code = code.replace(/\s+/g,' ').trim();
-process.stdout.write('javascript:' + code);
+fs.writeFileSync('$2', 'javascript:' + code);
 "
 }
 
-echo "=== LOAD CSV bookmarklet ==="
-minify bookmarklet-load.js
-echo ""
-echo ""
-echo "=== FILL FORM bookmarklet ==="
-minify bookmarklet.js
-echo ""
+minify bookmarklet-load.js minified/bookmarklet-load.js
+echo "Written: minified/bookmarklet-load.js"
+
+minify bookmarklet.js minified/bookmarklet.js
+echo "Written: minified/bookmarklet.js"
