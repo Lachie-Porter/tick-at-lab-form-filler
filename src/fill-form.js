@@ -13,8 +13,7 @@
     console.log("[bm] CSV data loaded. Procedures:", Object.keys(DATA));
 
     var KEY = "bm_progress";
-    localStorage.removeItem(KEY);
-    var state = null;
+    var state = JSON.parse(localStorage.getItem(KEY) || "null");
 
     if (!state) {
       var procs = Object.keys(DATA);
