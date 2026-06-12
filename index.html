@@ -36,17 +36,19 @@
         font-family: inherit;
       }
 
-      button {
-        padding: 10px;
+      button, a.btn {
+        padding: 10px 16px;
         background: #2563eb;
         color: white;
         border: none;
         border-radius: 4px;
         font-size: 15px;
         cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
       }
 
-      button:hover {
+      button:hover, a.btn:hover {
         background: #1d4ed8;
       }
 
@@ -64,7 +66,7 @@
   <body>
     <h1>New</h1>
 
-    <form id="contact-form">
+    <form id="AdditionalProcedureTrainingDetailsTable191010234-E2">
       <label>
         Investigator name
         <input type="text" name="name" placeholder="Jane Smith" required />
@@ -85,20 +87,20 @@
         <input type="text" name="competency" />
       </label>
 
-      <button type="submit">Apply & New</button>
+      <a href="#" class="btn" id="apply-and-new">Apply &amp; New</a>
     </form>
 
     <div id="output"></div>
 
     <script>
-      document
-        .getElementById("contact-form")
-        .addEventListener("submit", function (e) {
+      document.getElementById("apply-and-new").addEventListener("click", function (e) {
           e.preventDefault();
-          const data = Object.fromEntries(new FormData(this));
+          const form = this.closest("form");
+          const data = Object.fromEntries(new FormData(form));
           const output = document.getElementById("output");
           output.style.display = "block";
           output.textContent = JSON.stringify(data, null, 2);
+          form.reset();
         });
     </script>
   </body>

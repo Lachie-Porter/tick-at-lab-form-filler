@@ -17,13 +17,13 @@
     state = { exp: expName, index: 0 };
   }
 
-  function byLabel(text) {
-    return $('label').filter(function () {
+  function byLabel(form, text) {
+    return form.find('label').filter(function () {
       return $(this).clone().children().remove().end().text().trim() === text;
     }).find('input, select, textarea');
   }
 
-  function fillNext() {
+  function fillNext(form) {
     var list = DATA[state.exp];
     if (state.index >= list.length) {
       alert('Done — ' + state.exp + ' complete!');
@@ -31,20 +31,22 @@
       return;
     }
     var person = list[state.index];
-    byLabel('Investigator name').val(person.name);
-    byLabel('Procedure name').val(state.exp);
-    byLabel('Species').val('Mouse');
-    byLabel('Competency').val(person.competency);
+    byLabel(form, 'Investigator name').val(person.name);
+    byLabel(form, 'Procedure name').val(state.exp);
+    byLabel(form, 'Species').val('Mouse');
+    byLabel(form, 'Competency').val(person.competency);
     state.index++;
     localStorage.setItem(KEY, JSON.stringify(state));
     document.title = '(' + state.index + '/' + list.length + ') ' + state.exp;
   }
 
-  $('#contact-form').off('submit.bm').on('submit.bm', function () {
-    fillNext();
+  $(document).off('click.bm').on('click.bm', 'a', function () {
+    if ($(this).text().trim() === 'Apply & New') {
+      fillNext($('[id*="AdditionalProcedureTrainingDetailsTable"]').first());
+    }
   });
 
-  fillNext();
+  fillNext($('[id*="AdditionalProcedureTrainingDetailsTable"]').first());
   }
 
   if (window.jQuery) {
