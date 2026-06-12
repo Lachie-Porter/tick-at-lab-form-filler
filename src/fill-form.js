@@ -131,21 +131,6 @@
       document.title = "(" + state.index + "/" + list.length + ") " + state.exp;
     }
 
-    $(document)
-      .off("click.bm")
-      .on("click.bm", "a", function () {
-        if ($(this).text().trim() === "Apply & New") {
-          console.log('[bm] "Apply & New" clicked — filling next entry');
-          var form = $('[id*="DXPEForm_PW"]').first();
-          if (!form.length) {
-            console.error(
-              '[bm] click handler: form not found after "Apply & New" click',
-            );
-          }
-          fillNext(form);
-        }
-      });
-
     fillNext($('[id*="DXPEForm_PW"]').first());
   }
 
