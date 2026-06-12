@@ -8,8 +8,8 @@ fs.writeFileSync('$2', 'javascript:' + code);
 "
 }
 
-minify bookmarklet-load.js minified/bookmarklet-load.js
-echo "Written: minified/bookmarklet-load.js"
+minify src/load-csv.js minified/load-csv.js
+echo "Written: minified/load-csv.js"
 
-minify bookmarklet.js minified/bookmarklet.js
-echo "Written: minified/bookmarklet.js"
+minify src/fill-form.js minified/fill-form.js
+echo "Written: minified/fill-form.js"
