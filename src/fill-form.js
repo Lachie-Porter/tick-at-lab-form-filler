@@ -30,13 +30,44 @@
   }
 
   function byLabel(form, text) {
-    var field = form.find('label').filter(function () {
-      return $(this).clone().children().remove().end().text().trim() === text;
-    }).find('input, select, textarea');
-    if (!field.length) {
-      console.warn('[bm] byLabel: could not find field for label "' + text + '"');
+    var label = form.find('label').filter(function () {
+      return $(this).text().trim().indexOf(text) !== -1;
+    }).first();
+
+    if (!label.length) {
+      console.warn('[bm] byLabel: no label found matching "' + text + '"');
+      return $();
     }
-    return field;
+
+    // Strategy 1: label wraps the input
+    var field = label.find('input, select, textarea').first();
+    if (field.length) {
+      console.log('[bm] byLabel: "' + text + '" found via label wrapper');
+      return field;
+    }
+
+    // Strategy 2: label[for] -> input#id
+    var forAttr = label.attr('for');
+    if (forAttr) {
+      field = form.find('#' + forAttr);
+      if (field.length) {
+        console.log('[bm] byLabel: "' + text + '" found via for/id');
+        return field;
+      }
+    }
+
+    // Strategy 3: next input/select/textarea in the DOM after the label
+    field = label.nextAll('input, select, textarea').first();
+    if (!field.length) {
+      field = label.parent().nextAll().find('input, select, textarea').first();
+    }
+    if (field.length) {
+      console.log('[bm] byLabel: "' + text + '" found via nearest following input');
+      return field;
+    }
+
+    console.warn('[bm] byLabel: could not find field for label "' + text + '" — tried all strategies');
+    return $();
   }
 
   function fillNext(form) {
