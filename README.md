@@ -27,10 +27,13 @@ This will load javascript scripts that run when clicked.
 ## Development
 
 - Write code under each of the bookmarklet scripts
-- Run ./minify.sh
+- Run scripts/minify.sh
 - All scripts will be minified and written to the minified output dir
 - Deploy minified code to the browser to test
 
 ### Testing Target
+
+- Install http service (I use node serve)
+- Test page can be run with `servce src/`
 
 The index.html file is a rough approximation for forms found in the Tick@Lab software, should not be considered an exact replica, it's just a test target when we don't want to run it against the real software.
