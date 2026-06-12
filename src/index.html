@@ -36,7 +36,8 @@
         font-family: inherit;
       }
 
-      button, a.btn {
+      button,
+      a.btn {
         padding: 10px 16px;
         background: #2563eb;
         color: white;
@@ -48,7 +49,8 @@
         display: inline-block;
       }
 
-      button:hover, a.btn:hover {
+      button:hover,
+      a.btn:hover {
         background: #1d4ed8;
       }
 
@@ -66,7 +68,7 @@
   <body>
     <h1>New</h1>
 
-    <form id="AdditionalProcedureTrainingDetailsTable191010234-E2">
+    <form id="AUss.FDT.AdditionalProcedureTrainingDetailsTable191014MWE3--1S">
       <label>
         Investigator name
         <input type="text" name="name" placeholder="Jane Smith" required />
@@ -93,7 +95,9 @@
     <div id="output"></div>
 
     <script>
-      document.getElementById("apply-and-new").addEventListener("click", function (e) {
+      document
+        .getElementById("apply-and-new")
+        .addEventListener("click", function (e) {
           e.preventDefault();
           const form = this.closest("form");
           const data = Object.fromEntries(new FormData(form));
