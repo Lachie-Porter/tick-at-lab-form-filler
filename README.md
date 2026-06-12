@@ -12,8 +12,8 @@ Currently these scripts are used as bookmarklets in chrome.
 
 - Take the minified scripts under `minified/`
 - Go to chrome -> right click bookmark bar -> bookmarks manager -> add new bookmark
-- Name: <script name>
-- URL: <minified script>
+- Name: (Script Name)
+- URL: (Minified code for script)
 
 This will load javascript scripts that run when clicked.
 
