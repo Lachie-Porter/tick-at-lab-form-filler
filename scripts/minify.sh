@@ -1,15 +1,9 @@
 #!/bin/bash
 minify() {
-  node -e "
-var fs = require('fs');
-var code = fs.readFileSync('$1','utf8');
-code = code.replace(/\s+/g,' ').trim();
-fs.writeFileSync('$2', 'javascript:' + code);
-"
+  npx terser "$1" --compress --mangle --output "$2"
+  echo "javascript:" | cat - "$2" > "$2.tmp" && mv "$2.tmp" "$2"
+  echo "Written: $2"
 }
 
 minify src/load-csv.js minified/load-csv.js
-echo "Written: minified/load-csv.js"
-
 minify src/fill-form.js minified/fill-form.js
-echo "Written: minified/fill-form.js"
